@@ -1,0 +1,12 @@
+{
+  "HostName": "",
+  "Port": 22,
+  "Username": "",
+  "Password": "",
+  "Uploads": [
+    {
+      "LocalPath": "",
+      "RemotePath": [ "" ]
+    }
+  ]
+}
