@@ -103,9 +103,18 @@ async Task Upload(string file, UploadInfo owner)
 Task FileTask(string path, UploadInfo owner, bool onrun)
 {
     DateTime LastWrite = File.GetLastWriteTime(path);
-    DateTime value = FileDatabase.GetOrAdd(path, LastWrite);
+    bool upload = false;
+    if(FileDatabase.TryGetValue(path, out var valueInDict))
+    {
+        if (valueInDict != LastWrite) upload = true;
+    }
+    else
+    {
+        FileDatabase[path] = LastWrite;
+        upload = true;
+    }
 
-    if (onrun || LastWrite == value) return Task.CompletedTask;
+    if (onrun || !upload) return Task.CompletedTask;
 
     FileDatabase[path] = LastWrite;
     return Upload(path, owner);
